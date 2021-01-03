@@ -1,5 +1,11 @@
-module.exports = (number) => {  
-  const romanNumbers = {
+module.exports = (number) => { 
+
+  if (typeof number !== 'string') {
+    const errorMessage = `Invalid type of argument "${typeof number}" is in the function! Available type is "String"`
+    throw new TypeError(errorMessage);
+  } 
+
+  const ROMAN_NUMBERS = {
     'I': 1,
     'V': 5,
     'X': 10,
@@ -10,13 +16,20 @@ module.exports = (number) => {
   }
  
   return number
+    .toUpperCase()
     .split('')
-    .reduce((acc, el, index, array) => {
-      const currentValue = romanNumbers[el];
-      const nextValue = romanNumbers[array[index + 1]];
+    .reduce((accumulator, number, index, numbers) => {
+      const currentValue = ROMAN_NUMBERS[number];
+      const nextValue = ROMAN_NUMBERS[numbers[index + 1]];
+
+      if (!currentValue) {
+        const errorMessage = `Invalid character "${number}" is in the function argument! Available symbols: ${Object.keys(ROMAN_NUMBERS)}`
+        throw new RangeError(errorMessage);
+      }      
+
       return currentValue >= nextValue || !nextValue
-        ? acc + currentValue
-        : acc - currentValue   
+        ? accumulator + currentValue
+        : accumulator - currentValue   
     }, 0)
 }
 

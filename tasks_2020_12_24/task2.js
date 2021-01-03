@@ -1,15 +1,18 @@
 module.exports = (number) => {
-  let isPalindrome = true;
+  if (typeof number !== 'number') {
+    const errorMessage = `Invalid type of argument "${typeof number}" is in the function! Available type is "Number"`
+    throw new TypeError(errorMessage);
+  } 
 
-  number.toString().split('').some((element, index, array) => {
+  return number
+    .toString()
+    .split('')
+    .every((element, index, array) => {
     if (index > array.length / 2) return true;
-    if (element !== array[array.length - 1 - index]) {
-      isPalindrome = false;
-      return true;
-    }
+    return element === array[array.length - 1 - index]
   });
 
-  return isPalindrome;
+
 }
 
 
