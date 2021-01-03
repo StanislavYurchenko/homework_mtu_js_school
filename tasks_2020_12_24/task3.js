@@ -1,23 +1,33 @@
 module.exports = (str) => {
+  if (typeof str !== 'string') {
+    const errorMessage = `Invalid type of argument "${typeof str}" is in the function! Available type is "String"`
+    throw new TypeError(errorMessage);
+  } 
+
+  const OPENED_BRACKETS = ['{', '[', '('];
+  const CLOSED_BRACKETS = ['}', ']', ')'];
+
   const stack = [];
-  const openedBrackets = ['{', '[', '('];
-  const closedBrackets = ['}', ']', ')'];
   let isBracketsPair = true;  
   
   str
     .split('')
-    .some(element => {  
-      if (openedBrackets.includes(element)) {
+    .forEach(element => {  
+      console.log(element);
+      if (OPENED_BRACKETS.includes(element)) {
           stack.push(element);
-      } else if (closedBrackets.includes(element)) {
-        if (openedBrackets.indexOf(stack.pop()) !== closedBrackets.indexOf(element)) {
+      } else if (CLOSED_BRACKETS.includes(element)) {
+        if (OPENED_BRACKETS.indexOf(stack.pop()) !== CLOSED_BRACKETS.indexOf(element)) {
           isBracketsPair = false;
-          return true;
         };
+      } else {
+        const errorMessage = `Unacceptable argument "${element}". The argument can only contain "${OPENED_BRACKETS},${CLOSED_BRACKETS}"`
+        throw new Error(errorMessage);
       }
     });
   
   return stack.length === 0 && isBracketsPair;
+
 }
 
 
