@@ -1,8 +1,11 @@
-module.exports = (number) => {
-  if (typeof number !== 'number') {
-    const errorMessage = `Invalid type of argument "${typeof number}" is in the function! Available type is "Number"`
-    throw new TypeError(errorMessage);
-  } 
+const validation = require("./argumentValidation.js");
+
+const options = {
+  argumentType: 'number',
+}
+
+module.exports = function(number) {
+  validation(options, ...arguments);
 
   return number
     .toString()
